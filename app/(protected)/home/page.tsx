@@ -2,7 +2,7 @@
 
 import Card from '@/components/Card';
 import InfiniteScroll from '@/components/InfiniteScroll';
-import Loader from '@/components/Loader';
+import Loader from '@/components/Loader/Loader';
 import { delay } from '@/utils/delay';
 import React, { Suspense, useEffect } from 'react';
 
@@ -16,18 +16,14 @@ const Posts = ({ item, refTarget }) => {
 
 const Home = () => {
     const fetchData = async (page: number, limit: number) => {
-        throw Error('sddsdsd');
-        await delay(60000);
+        // throw Error('sddsdsd');
+        await delay(10000);
         const url = `https://jsonplaceholder.typicode.com/photos?_page=${page}&_limit=${limit}`;
         const res = await fetch(url);
         const data = await res.json();
         return data;
     };
-    return (
-        <Suspense fallback={<Loader />}>
-            <InfiniteScroll fetchData={fetchData} ItemComponent={Posts} limit={25} />
-        </Suspense>
-    );
+    return <InfiniteScroll fetchData={fetchData} ItemComponent={Posts} limit={25} />;
 };
 
 export default Home;
