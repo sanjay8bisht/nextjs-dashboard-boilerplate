@@ -10,7 +10,7 @@ type ScrollProps = {
 };
 
 const InfiniteScroll = ({ fetchData, ItemComponent, limit = 20 }: ScrollProps) => {
-    const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
     const [page, setPage] = useState<number>(0);
     const [hasMore, setHasMore] = useState<boolean>(true);
     const [listItems, setListItems] = useState([]);
@@ -50,7 +50,7 @@ const InfiniteScroll = ({ fetchData, ItemComponent, limit = 20 }: ScrollProps) =
                         return <ItemComponent item={item} key={index} />;
                     })}
             </div>
-            {true && (
+            {isLoading && (
                 <div className="w-full p-[12px] m-auto">
                     <svg
                         className="animate-spin h-5 w-5 text-white mx-auto"
