@@ -5,6 +5,7 @@ import { ChangeEvent, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Cookies from 'js-cookie';
 import Alert from '@/components/Alert';
+import Button from '@/components/Buttons';
 
 export default function Signup() {
     const router = useRouter();
@@ -12,6 +13,7 @@ export default function Signup() {
     const [password, setPassword] = useState<string>('');
     const [formFilled, setFormFilled] = useState<boolean>(false);
     const [errorMessage, setErrorMessage] = useState<string>('');
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         if (username && password) {
@@ -21,6 +23,7 @@ export default function Signup() {
 
     const authenticate = async () => {
         if (formFilled) {
+            setLoading(true);
             const requestOptions = {
                 method: 'POST',
                 headers: {
@@ -36,6 +39,7 @@ export default function Signup() {
             } else {
                 setErrorMessage(response.message);
             }
+            setLoading(false);
         }
     };
 
@@ -55,13 +59,9 @@ export default function Signup() {
                         value={password}
                     />
                     <div className="">
-                        <button
-                            className="w-[calc(85%)] p-[12px] bg-indigo-700 text-white rounded-[10px] disabled:bg-indigo-400"
-                            disabled={!formFilled}
-                            onClick={authenticate}
-                        >
+                        <Button disabled={!formFilled} loading={loading} onClick={authenticate}>
                             SIGNUP
-                        </button>
+                        </Button>
                     </div>
                 </div>
             </div>

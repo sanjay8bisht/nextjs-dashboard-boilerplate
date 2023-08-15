@@ -3,6 +3,7 @@
 import useOnScreen from '@/hooks/useOnScreen';
 import React, { useEffect, useState, useRef } from 'react';
 import LoaderIcon from './Loader/LoaderIcon';
+import Loader from './Loader/Loader';
 
 type ScrollProps = {
     fetchData: (page: number, limit: number) => Promise<[]>;
@@ -43,13 +44,16 @@ const InfiniteScroll = ({ fetchData, ItemComponent, limit = 20 }: ScrollProps) =
     return (
         <div>
             <div className="flex flex-row flex-wrap content-center justify-center">
-                {listItems.length > 0 &&
+                {listItems.length > 0 ? (
                     listItems.map((item, index) => {
                         if (index === listItems.length - 1) {
                             return <ItemComponent item={item} key={index} refTarget={measureRef} />;
                         }
                         return <ItemComponent item={item} key={index} />;
-                    })}
+                    })
+                ) : (
+                    <Loader />
+                )}
             </div>
             {isLoading && <LoaderIcon />}
         </div>

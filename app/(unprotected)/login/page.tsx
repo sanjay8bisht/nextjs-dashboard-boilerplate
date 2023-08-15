@@ -5,6 +5,8 @@ import { ChangeEvent, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Cookies from 'js-cookie';
 import Alert from '@/components/Alert';
+import Button from '@/components/Buttons';
+import { delay } from '@/utils/delay';
 
 export default function Login() {
     const router = useRouter();
@@ -12,6 +14,7 @@ export default function Login() {
     const [password, setPassword] = useState<string>('');
     const [formFilled, setFormFilled] = useState<boolean>(false);
     const [errorMessage, setErrorMessage] = useState<string>('');
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         if (username && password) {
@@ -21,6 +24,8 @@ export default function Login() {
 
     const authenticate = async () => {
         if (formFilled) {
+            setLoading(true);
+            // await delay(10000);
             const requestOptions = {
                 method: 'POST',
                 headers: {
@@ -36,6 +41,7 @@ export default function Login() {
             } else {
                 setErrorMessage(response.message);
             }
+            setLoading(false);
         }
     };
 
@@ -55,13 +61,9 @@ export default function Login() {
                         value={password}
                     />
                     <div className="">
-                        <button
-                            className="w-[calc(85%)] p-[12px] bg-indigo-700 text-white rounded-[10px] disabled:bg-indigo-400"
-                            disabled={!formFilled}
-                            onClick={authenticate}
-                        >
+                        <Button disabled={!formFilled} loading={loading} onClick={authenticate}>
                             LOGIN
-                        </button>
+                        </Button>
                     </div>
                 </div>
             </div>
